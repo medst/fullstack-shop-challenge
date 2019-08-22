@@ -2,10 +2,12 @@ const router = require('express').Router();
 
 const { asyncMiddleware } = require('../middlewares/asyncmw');
 const { validateUserInput } = require('../middlewares/inputValidation');
-const { login, signup } = require('../controllers/user');
+const { login, signup, logout } = require('../controllers/user');
 
 router.post('/login', validateUserInput, asyncMiddleware(login));
 
 router.post('/signup', validateUserInput, asyncMiddleware(signup));
+
+router.post('/signup', logout);
 
 module.exports = router

@@ -33,3 +33,7 @@ exports.signup = async function(req, res){
         req.session.userId = newUser._id;
     }
 };
+
+exports.logout = function(req, res){
+    res.json({status: 'ok'});
+}
