@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const pdb = "mongodb+srv://medst:mohanader@cluster0-vwt5h.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -19,7 +20,9 @@ const user = require('./routes/user');
 
 
 app.use(express.static('uploads'));
-app.use('/', express.static('frontend/build'));
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+});
 app.use(bodyParser.json());
 app.use(session({
   store: new MongoStore({
