@@ -42,7 +42,7 @@ app.use(session({
 app.use('/api/shops', shops);
 app.use('/api/user', user);
 
-// app.use(error);
+app.use(error);
 
 app.listen(process.env.PORT || 5000, () =>{
     console.log('app running on port : 5000');
