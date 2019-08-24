@@ -5,7 +5,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 
-const pdb = "your db path";
+const pdb = "mongodb+srv://medst:mohanader@cluster0-vwt5h.mongodb.net/test?retryWrites=true&w=majority";
 
 mongoose.connect(pdb, { useNewUrlParser: true });
 require('./models/shops');
