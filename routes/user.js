@@ -8,6 +8,6 @@ router.post('/login', validateUserInput, asyncMiddleware(login));
 
 router.post('/signup', validateUserInput, asyncMiddleware(signup));
 
-router.post('/signup', logout);
+router.post('/logout', logout);
 
 module.exports = router

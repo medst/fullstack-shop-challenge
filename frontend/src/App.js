@@ -1,14 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import { Route, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom';
 
-import Form from './components/form';
-import ShopCard from './components/shopCard';
 import Header from './components/header';
-import Login from './pages/login';
-import SignUp from './pages/signup';
-import Preferred from './pages/preferred';
-import NearBy from './pages/nearby';
+import User from './pages/user';
+import Shops from './pages/shops';
+
+import Wrapper from './components/appWrapper';
 
 import { Layout } from 'antd';
 
@@ -17,46 +15,52 @@ import './App.css';
 import AuthContext from './context/auth';
 
 function App() {
-
-  const [login, setLogin] = useState(false);
-
-  login = () => {
-    setLogin(true);
-  }
-
-  logout = () => {
-    setLogin(false);
-  }
-
+ 
   return (
-    <AuthContext.Provider value={{isLogin: login, login: login, logout: logout}}>
+    <Wrapper>
       <Router>
         <Layout>
           <Layout.Header>
             <Header/>
           </Layout.Header>
-          <Layout.Content>
-            <Switch>
-              <Route path="/" exact render={() => (
-                    login ? (
-                      <Redirect to="/nearby"/>
-                    ) : (
-                      <Redirect to="/login"/>
-                    )
-                  )} />
-              <Route path="/nearby" component={NearBy} />
-              <Route path="/preferred" component={Preferred} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="*" component={Login} />
-            </Switch>
+          <Layout.Content style={{padding: '20px 50px'}}>
+            <AuthContext.Consumer>
+              {(context) =>  (
+                <Switch>
+                  <Route path="/" exact render={() => (
+                        context.isLogin ? (
+                          <Redirect to="/nearby"/>
+                        ) : (
+                          <Redirect to="/login"/>
+                        )
+                      )} />
+                  <Route path="/preferred" render={() => (
+                        context.isLogin ? (
+                          <Shops type="preferred"/>
+                        ) : (
+                          <Redirect to="/login"/>
+                        )
+                      )} />
+                  <Route path="/nearby" render={() => (
+                        context.isLogin ? (
+                          <Shops type="nearby"/>
+                        ) : (
+                          <Redirect to="/login"/>
+                        )
+                      )} />
+                  <Route path="/login" render={() => <User type="login"/> } />
+                  <Route path="/signup" render={() => <User type="signup"/> } />
+                  <Route path="*" render={() => <User type="login"/> } />
+                </Switch>
+              ) }
+            </AuthContext.Consumer>
           </Layout.Content>
           <Layout.Footer>
             
           </Layout.Footer>
         </Layout>
       </Router>
-    </AuthContext.Provider>
+    </Wrapper>
   );
 }
 

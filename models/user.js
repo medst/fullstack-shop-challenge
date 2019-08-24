@@ -23,7 +23,7 @@ UserSchema.pre("save", function(next) {
         return next();
     }
     this.email = this.email.toLowerCase();
-    this.password = Bcrypt.hashSync(this.password, 10);
+    this.password = bcrypt.hashSync(this.password, 10);
     next();
 });
 

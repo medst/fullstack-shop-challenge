@@ -5,9 +5,9 @@ const { asyncMiddleware } = require('../middlewares/asyncmw');
 const { validateShopInput } = require('../middlewares/inputValidation');
 const { nearby, preferred, like, dislike, remove } = require('../controllers/shops');
 
-router.get('/nearby', auth, validateShopInput, asyncMiddleware(nearby));
+router.get('/nearby', auth, asyncMiddleware(nearby));
 
-router.get('/preferred', auth, validateShopInput, asyncMiddleware(preferred));
+router.get('/preferred', auth, asyncMiddleware(preferred));
 
 router.post('/like', auth, validateShopInput, asyncMiddleware(like));
 

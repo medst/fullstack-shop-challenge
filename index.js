@@ -1,14 +1,13 @@
 const express = require('express')
-const app = express()
-const path = require('path');
+const app = express();
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 const pdb = "mongodb+srv://medst:mohanader@cluster0-vwt5h.mongodb.net/test?retryWrites=true&w=majority";
 
-mongoose.connect(pdb);
+mongoose.connect(pdb, { useNewUrlParser: true });
 require('./models/shops');
 require('./models/user');
 mongoose.Promise = global.Promise;
@@ -18,7 +17,9 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 const shops = require('./routes/shops');
 const user = require('./routes/user');
 
-app.use(express.static(path.join(__dirname+'frontend/build')));
+
+app.use(express.static('uploads'));
+app.use('/', express.static('frontend/build'));
 app.use(bodyParser.json());
 app.use(session({
   store: new MongoStore({
@@ -38,7 +39,7 @@ app.use(session({
 app.use('/api/shops', shops);
 app.use('/api/user', user);
 
-// app.use(error);
+app.use(error);
 
 app.listen(5000, () =>{
     console.log('app running on port : 5000');

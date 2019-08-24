@@ -1,8 +1,6 @@
 
 const mongoose = require('mongoose');
 
-
-const asyncMiddleware = require('../middlewares/asyncmw');
 const User = mongoose.model('User');
 
 
@@ -15,8 +13,8 @@ exports.login = async function(req, res){
             if(!match)
                 return res.json({status:'error', data: "email or password incorrect"});
             else {
-                res.json({status: 'ok', data: req.body.email});
                 req.session.userId = user._id;
+                return res.json({status: 'ok', data: req.body.email});
             }
         });       
 };
@@ -29,11 +27,12 @@ exports.signup = async function(req, res){
     else{
         const newUser = new User(req.body);
         await newUser.save();
-        res.json({status: 'ok', data: newUser.email});
         req.session.userId = newUser._id;
+        return res.json({status: 'ok', data: newUser.email});
     }
 };
 
 exports.logout = function(req, res){
+    req.session.userId = null;
     res.json({status: 'ok'});
 }
