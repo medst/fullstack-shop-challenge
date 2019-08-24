@@ -20,7 +20,7 @@ const user = require('./routes/user');
 
 
 app.use(express.static('uploads'));
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 });
 app.use(bodyParser.json());
@@ -42,7 +42,7 @@ app.use(session({
 app.use('/api/shops', shops);
 app.use('/api/user', user);
 
-// app.use(error);
+app.use(error);
 
 app.listen(process.env.PORT || 5000, () =>{
     console.log('app running on port : 5000');
